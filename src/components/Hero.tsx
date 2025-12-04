@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
-import logoImage from 'figma:asset/6761fcdfd3fd44682c12fd25ffa6af6cef40dd6d.png';
+import { Logo } from './Logo';
 
 interface HeroProps {
   onExportCSV: () => void;
@@ -103,12 +103,7 @@ export function Hero({ onExportCSV, onActivateODL }: HeroProps) {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-[#2979FF]/20 animate-ping" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
             </div>
 
-            {/* Logo Central */}
-            <img 
-              src={logoImage} 
-              alt="PAYHUB - Tesouraria Ativa" 
-              className="w-32 h-32 mx-auto rounded-full shadow-2xl shadow-[#2979FF]/30 relative z-10"
-            />
+            <Logo size="w-32 h-32" className="mx-auto shadow-2xl shadow-[#2979FF]/30 relative z-10" alt="PAYHUB - Tesouraria Ativa" />
           </div>
 
           {/* Main Title - Inspirado no Slide */}

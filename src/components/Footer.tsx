@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, FileText, Shield, Cookie, ExternalLink } from 'lucide-react';
-import logoImage from 'figma:asset/6761fcdfd3fd44682c12fd25ffa6af6cef40dd6d.png';
+import { Logo } from './Logo';
 
 export function Footer() {
   const legalLinks = [
@@ -35,12 +35,7 @@ export function Footer() {
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#2979FF]/20 animate-ping" style={{ animationDuration: '7s', animationDelay: '3s' }}></div>
                 </div>
 
-                {/* Logo Central */}
-                <img 
-                  src={logoImage} 
-                  alt="PAYHUB Logo" 
-                  className="w-12 h-12 rounded-full relative z-10"
-                />
+                <Logo size="w-12 h-12" className="relative z-10" alt="PAYHUB Logo" />
               </div>
               <div>
                 <div className="text-white font-bold">PAYHUB</div>
