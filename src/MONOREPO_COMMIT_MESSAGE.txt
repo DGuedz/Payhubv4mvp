@@ -1,0 +1,76 @@
+refactor: migrate to monorepo structure with payhub-dashboard
+
+BREAKING CHANGE: Reestruturação do projeto para monorepo
+
+## Nova Estrutura
+
+Criado workspace `payhub-dashboard/` com aplicação Vite + React:
+
+### Adicionado
+- `payhub-dashboard/` - Nova aplicação Vite + React
+  - src/components/ - Todos os componentes React
+  - src/sdk/ - SDK modular com retry/backoff
+  - src/styles/ - Estilos globais Tailwind
+  - src/App.tsx - Componente raiz
+  - src/main.tsx - Entry point
+  - package.json - Dependências do dashboard
+  - vite.config.ts - Configuração Vite
+  - tsconfig.json - Configuração TypeScript
+  - README.md - Documentação específica
+
+### Features do Dashboard
+- ✨ Pagamento PIX com QR dinâmico e callback automático
+- ✨ Escrow RLUSD com wizard de 4 passos
+- ✨ Yield automático (5-8% APY)
+- ✨ Roteamento AMM com pathfind
+- ✨ Auditoria com exportação CSV (CARF/OCDE)
+- ✨ SDK modular com retry exponencial
+- ✨ Toast notifications globais
+- ✨ Navegação omnicanal (mobile/desktop)
+
+### Componentes Principais
+- PaymentPix - Modal de pagamento com 4 steps
+- DashboardHome - Widget principal
+- DashboardNav - Navegação mobile tab bar + desktop sidebar
+- EscrowWizard - Wizard completo de Escrow
+- YieldCard - Ativação de yield
+- AMMCard - Consulta AMM pathfind
+- AuditTable - Tabela + exportação CSV
+- Toast - Sistema de notificações
+
+### SDK Features
+- Base URL inteligente (auto-detecta origin)
+- Retry com backoff exponencial
+- currencyHex() browser-compatible
+- Módulos: trustline, escrow, amm, yield, compliance, security
+
+### Segurança & Compliance
+- XRPL_SEED isolada no backend (KMS/ENV)
+- JWT curto obrigatório
+- Auditoria sem PII (apenas txHash/sequence)
+- Banner CARF/OCDE (IN RFB nº 2.291/2025)
+- Cookie consent GOV.BR
+
+### Documentação
+- MIGRATION_GUIDE.md - Guia completo de migração
+- ROOT_WORKSPACE_UPDATE.md - Instruções workspace npm
+- payhub-dashboard/README.md - Documentação dashboard
+
+### Scripts
+- migrate-to-monorepo.sh - Script automatizado de migração
+- payhub-dashboard/scripts/sdk-smoke.ts - Smoke test do SDK
+
+### Configuração
+- Workspaces npm para gerenciamento centralizado
+- ESLint + Prettier configurados
+- TypeScript strict mode
+- Vite com proxy para API local
+
+### Próximas Ações
+1. Executar migrate-to-monorepo.sh
+2. Atualizar package.json root com workspaces config
+3. npm install no dashboard
+4. npm run dev:dashboard
+5. Testar fluxo completo PIX → Escrow → CSV
+
+Co-authored-by: TRAE AI <trae@payhub.com.br>

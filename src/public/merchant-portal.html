@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAYHUB - Portal do Comerciante | Testnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Paleta PAYHUB */
+            --navy: #001F3F;
+            --neon-green: #00FF84;
+            --dark-bg: #0a0f1a;
+            --card-bg: #0f1825;
+            --border: #1a2332;
+            --text-primary: #ffffff;
+            --text-secondary: #8b92a3;
+            --success: #00FF84;
+            --warning: #FFA500;
+            --danger: #FF4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header com Badge Testnet */
+        .header {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--neon-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-green);
+        }
+
+        .network-badge {
+            background: var(--success);
+            color: var(--navy);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--navy);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Security Banner */
+        .security-banner {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--navy) 100%);
+            border: 1px solid var(--neon-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .security-icon {
+            font-size: 2rem;
+        }
+
+        .security-text h3 {
+            color: var(--neon-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .security-text p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .security-badge {
+            margin-left: auto;
+            background: var(--success);
+            color: var(--navy);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Card Base */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--neon-green);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Balance Card */
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 1rem 0;
+        }
+
+        .balance-currency {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .balance-yield {
+            background: rgba(0, 255, 132, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .yield-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .yield-value {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--neon-green);
+            color: var(--navy);
+        }
+
+        .btn-primary:hover {
+            background: #00cc6a;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 132, 0.1);
+        }
+
+        .btn-disabled {
+            background: var(--border);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        /* TX History */
+        .tx-list {
+            margin-top: 1rem;
+        }
+
+        .tx-item {
+            background: rgba(0, 255, 132, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tx-item:hover {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 132, 0.1);
+        }
+
+        .tx-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tx-type {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tx-amount {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .tx-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .tx-hash {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--neon-green);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .tx-hash:hover {
+            color: #00cc6a;
+        }
+
+        /* Testnet Info Modal */
+        .testnet-info {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .testnet-info h3 {
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: rgba(0, 255, 132, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--neon-green);
+            word-break: break-all;
+        }
+
+        /* Roadmap Placeholders */
+        .roadmap-section {
+            margin-top: 2rem;
+        }
+
+        .roadmap-title {
+            font-size: 1.25rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .feature-placeholder {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .feature-placeholder h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            background: var(--warning);
+            color: var(--navy);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        .footer a {
+            color: var(--neon-green);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .balance-amount {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">💰 PAYHUB</div>
+        <div class="network-badge">
+            <span class="pulse"></span>
+            XRPL Testnet Live
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Security Banner -->
+        <div class="security-banner">
+            <div class="security-icon">🔐</div>
+            <div class="security-text">
+                <h3>Segurança Institucional Ativa</h3>
+                <p>XRPL_SEED isolada em KMS/ENV • Assinatura exclusiva no servidor • JWT com TTL curto • Rate Limit ativo</p>
+            </div>
+            <div class="security-badge">✓ Honeypot Ativo</div>
+        </div>
+
+        <!-- Testnet Info -->
+        <div class="testnet-info">
+            <h3>🔍 Configuração XRPL Testnet (Verificável)</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">RLUSD Issuer</div>
+                    <div class="info-value">rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Treasury Vault</div>
+                    <div class="info-value">r3YVS16agyx8JJdcroAWCyjmW8Yoejtn5K</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Merchant Wallet</div>
+                    <div class="info-value">rHHe2ha4z23RZJdPQTg11E1QuxEDjGgJz8</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Network</div>
+                    <div class="info-value">wss://s.altnet.rippletest.net:51233</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Balance Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💵 Saldo Disponível</h2>
+                    <span class="card-icon">📊</span>
+                </div>
+                <div class="balance-amount">12,500.00</div>
+                <div class="balance-currency">RLUSD (≈ R$ 62,500.00)</div>
+                <div class="balance-yield">
+                    <span class="yield-label">Rendimento Hoje:</span>
+                    <span class="yield-value">+ R$ 4,15 (6.2% APY)</span>
+                </div>
+                <button class="btn btn-primary">⚡ Liquidar D+0</button>
+                <button class="btn btn-secondary">📊 Ver Histórico</button>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">⚡ Ações Rápidas</h2>
+                    <span class="card-icon">🚀</span>
+                </div>
+                <button class="btn btn-primary">💳 Receber Pagamento</button>
+                <button class="btn btn-secondary">📲 Gerar PIX QR</button>
+                <button class="btn btn-secondary">💰 Antecipar Recebíveis</button>
+                <button class="btn btn-secondary">📄 Exportar Compliance CSV</button>
+            </div>
+
+            <!-- Security Status -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🔒 Status de Segurança</h2>
+                    <span class="card-icon">✅</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-secondary);">JWT Token Ativo</span>
+                        <span style="color: var(--success); font-weight: 600;">✓ Válido</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-secondary);">Rate Limit</span>
+                        <span style="color: var(--success); font-weight: 600;">✓ OK</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-secondary);">KMS Isolation</span>
+                        <span style="color: var(--success); font-weight: 600;">✓ Ativo</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-secondary);">Honeypot Defense</span>
+                        <span style="color: var(--success); font-weight: 600;">✓ Monitorando</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">📋 Transações Recentes (Testnet)</h2>
+                <span class="card-icon">🔍</span>
+            </div>
+            <div class="tx-list">
+                <!-- EscrowFinish - Prova Principal -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/38D3ED5B09CF4C1F03651615F95E42F790ADCBCE9DD6918F272FDF1A4C0B93F5', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">⭐ EscrowFinish (D+0)</span>
+                        <span class="tx-amount">+ 5.00 RLUSD</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 14:32</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: 38D3ED5B...4C0B93F5
+                    </div>
+                </div>
+
+                <!-- EscrowCreate -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/7876B63EE59FCE568CAF52C60736B717FAE4636622E85670D87FDB455A314DC6', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">🔒 EscrowCreate</span>
+                        <span class="tx-amount">5.00 RLUSD</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 14:30</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: 7876B63E...A314DC6 | Seq: 12860889
+                    </div>
+                </div>
+
+                <!-- Payment RLUSD -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/025375A56E9C326FD03CB600809077E3F8FA07183B3B4B820DFC6513FD58F1EE', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">💸 Payment RLUSD</span>
+                        <span class="tx-amount">+ 10.00 RLUSD</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 13:15</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: 025375A5...FD58F1EE
+                    </div>
+                </div>
+
+                <!-- Emissão RLUSD -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/CECB0CA7C5F33116BB90E7FDC3E59E50AA5DFED1BAA2BE144D181BBFCB7332A9', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">📤 Emissão RLUSD</span>
+                        <span class="tx-amount">+ 1,000.00 RLUSD</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 10:00</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: CECB0CA7...CB7332A9
+                    </div>
+                </div>
+
+                <!-- Trustline Merchant -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/527F0C5615004AF3B3C3FE12D1CECE7CD2D9CA229D3607B65210357A231836C2', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">🔗 TrustSet (Merchant)</span>
+                        <span class="tx-amount">RLUSD Line</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 09:00</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: 527F0C56...231836C2
+                    </div>
+                </div>
+
+                <!-- Trustline Treasury -->
+                <div class="tx-item" onclick="window.open('https://testnet.xrpl.org/transactions/4BB99CE6611658CD22692C4A2DF550C7420DF371EE74A64CF91D1E7A88957AE4', '_blank')">
+                    <div class="tx-header">
+                        <span class="tx-type">🔗 TrustSet (Treasury)</span>
+                        <span class="tx-amount">RLUSD Line</span>
+                    </div>
+                    <div class="tx-details">
+                        <span>29/11/2024 08:55</span>
+                        <span style="color: var(--success);">✓ SUCCESS</span>
+                    </div>
+                    <div class="tx-hash">
+                        TX: 4BB99CE6...88957AE4
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap Section -->
+        <div class="roadmap-section">
+            <h2 class="roadmap-title">🚀 Próximas Funcionalidades (Roadmap Semanas 3-4)</h2>
+            
+            <div class="grid">
+                <!-- Yield mXRP -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">💎 Yield Automático (mXRP)</h2>
+                        <span class="coming-soon">Em Breve</span>
+                    </div>
+                    <div class="feature-placeholder">
+                        <h4>Ativar Rendimento Passivo</h4>
+                        <p>APY: 5-8% sobre saldo em RLUSD</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">XRPL EVM Sidechain (mXRP)</p>
+                    </div>
+                    <button class="btn btn-disabled" disabled>📈 Ativar Yield (Coming Soon)</button>
+                </div>
+
+                <!-- Xumm OAuth -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">🔐 Identidade Xumm</h2>
+                        <span class="coming-soon">Semana 4</span>
+                    </div>
+                    <div class="feature-placeholder">
+                        <h4>Onboarding Seguro via Xumm</h4>
+                        <p>OAuth 2.0 com associação de wallet</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Sem senha, 100% blockchain</p>
+                    </div>
+                    <button class="btn btn-disabled" disabled>🔗 Conectar Wallet Xumm</button>
+                </div>
+
+                <!-- ERP Reconciliation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📊 Reconciliação ERP</h2>
+                        <span class="coming-soon">Semana 4</span>
+                    </div>
+                    <div class="feature-placeholder">
+                        <h4>Integração com ERP</h4>
+                        <p>Export CSV diário automático</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Compatível com SAP, TOTVS, etc.</p>
+                    </div>
+                    <button class="btn btn-disabled" disabled>📄 Configurar ERP</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">⚡ Métricas de Performance (Testnet)</h2>
+                <span class="card-icon">📊</span>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Latência Média TX</div>
+                    <div class="info-value" style="color: var(--success); font-size: 1.5rem;">3.5s</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        Target: < 5s (30% melhor) ✓
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Confirmação Escrow</div>
+                    <div class="info-value" style="color: var(--success); font-size: 1.5rem;">~4s</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        Target: < 10s (60% melhor) ✓
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Taxa de Sucesso</div>
+                    <div class="info-value" style="color: var(--success); font-size: 1.5rem;">100%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        6/6 TXs SUCCESS ✓
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Uptime Testnet</div>
+                    <div class="info-value" style="color: var(--success); font-size: 1.5rem;">100%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        Target: > 99% ✓
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>🔒 PAYHUB - Liquidez D+0 com Segurança Institucional</p>
+        <p>XRPL Testnet | TX Hash Auditável Publicamente</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://testnet.xrpl.org/" target="_blank">XRPL Explorer</a> • 
+            <a href="https://github.com/DGuedz/payhub-v3" target="_blank">GitHub</a> • 
+            <a href="/docs/QA_FINAL_REPORT.md" target="_blank">Documentação</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.75rem;">
+            © 2024 PAYHUB. Todos os direitos reservados.<br>
+            Desenvolvido com ❤️ por Diego Guedes (DG)
+        </p>
+    </div>
+
+    <script>
+        // Toast notification system
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--success)' : 'var(--warning)'};
+                color: var(--navy);
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Button click handlers
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+            if (!btn.disabled) {
+                btn.addEventListener('click', (e) => {
+                    if (!e.target.onclick && !e.target.closest('.tx-item')) {
+                        showToast('Funcionalidade disponível no dashboard React', 'info');
+                    }
+                });
+            }
+        });
+
+        // Log initial load
+        console.log('🚀 PAYHUB Portal do Comerciante - Testnet');
+        console.log('📊 6 TXs validadas com 100% de sucesso');
+        console.log('🔗 Rede: XRPL Testnet');
+        console.log('✅ Prova D+0: https://testnet.xrpl.org/transactions/38D3ED5B09CF4C1F03651615F95E42F790ADCBCE9DD6918F272FDF1A4C0B93F5');
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+{
+  "network": "testnet",
+  "period": "Semana 2 (29/11-05/12)",
+  "issuer": {
+    "address": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X",
+    "currency": "RLUSD"
+  },
+  "merchant": {
+    "address": "rHHe2ha4z23RZJdPQTg11E1QuxEDjGgJz8"
+  },
+  "treasury": {
+    "address": "r3YVS16agyx8JJdcroAWCyjmW8Yoejtn5K"
+  },
+  "transactions": [
+    {
+      "type": "TrustSet",
+      "description": "Trustline RLUSD (Merchant)",
+      "txHash": "527F0C5615004AF3B3C3FE12D1CECE7CD2D9CA229D3607B65210357A231836C2",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/527F0C5615004AF3B3C3FE12D1CECE7CD2D9CA229D3607B65210357A231836C2",
+      "status": "tesSUCCESS",
+      "account": "rHHe2ha4z23RZJdPQTg11E1QuxEDjGgJz8",
+      "limitAmount": {
+        "currency": "RLUSD",
+        "issuer": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X"
+      },
+      "timestamp": "2024-11-29T00:00:00Z"
+    },
+    {
+      "type": "TrustSet",
+      "description": "Trustline RLUSD (Treasury)",
+      "txHash": "4BB99CE6611658CD22692C4A2DF550C7420DF371EE74A64CF91D1E7A88957AE4",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/4BB99CE6611658CD22692C4A2DF550C7420DF371EE74A64CF91D1E7A88957AE4",
+      "status": "tesSUCCESS",
+      "account": "r3YVS16agyx8JJdcroAWCyjmW8Yoejtn5K",
+      "limitAmount": {
+        "currency": "RLUSD",
+        "issuer": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X"
+      },
+      "timestamp": "2024-11-29T00:00:00Z"
+    },
+    {
+      "type": "Payment",
+      "description": "Emissão RLUSD",
+      "txHash": "CECB0CA7C5F33116BB90E7FDC3E59E50AA5DFED1BAA2BE144D181BBFCB7332A9",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/CECB0CA7C5F33116BB90E7FDC3E59E50AA5DFED1BAA2BE144D181BBFCB7332A9",
+      "status": "tesSUCCESS",
+      "amount": {
+        "currency": "RLUSD",
+        "value": "1000.00",
+        "issuer": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X"
+      },
+      "timestamp": "2024-11-29T00:00:00Z"
+    },
+    {
+      "type": "EscrowCreate",
+      "description": "Escrow RLUSD IOU (R$ 5,00)",
+      "txHash": "7876B63EE59FCE568CAF52C60736B717FAE4636622E85670D87FDB455A314DC6",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/7876B63EE59FCE568CAF52C60736B717FAE4636622E85670D87FDB455A314DC6",
+      "status": "tesSUCCESS",
+      "owner": "rHHe2ha4z23RZJdPQTg11E1QuxEDjGgJz8",
+      "offerSequence": 12860889,
+      "destination": "r3YVS16agyx8JJdcroAWCyjmW8Yoejtn5K",
+      "amount": {
+        "currency": "RLUSD",
+        "value": "5.00",
+        "issuer": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X"
+      },
+      "timestamp": "2024-11-29T14:00:00Z"
+    },
+    {
+      "type": "EscrowFinish",
+      "description": "Finalização Escrow D+0 (PROVA PRINCIPAL)",
+      "txHash": "38D3ED5B09CF4C1F03651615F95E42F790ADCBCE9DD6918F272FDF1A4C0B93F5",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/38D3ED5B09CF4C1F03651615F95E42F790ADCBCE9DD6918F272FDF1A4C0B93F5",
+      "status": "tesSUCCESS",
+      "sequence": 12860890,
+      "owner": "rHHe2ha4z23RZJdPQTg11E1QuxEDjGgJz8",
+      "offerSequence": 12860889,
+      "confirmationTime": "3.5s",
+      "timestamp": "2024-11-29T14:00:04Z"
+    },
+    {
+      "type": "Payment",
+      "description": "Payment RLUSD (Settlement)",
+      "txHash": "025375A56E9C326FD03CB600809077E3F8FA07183B3B4B820DFC6513FD58F1EE",
+      "explorerUrl": "https://testnet.xrpl.org/transactions/025375A56E9C326FD03CB600809077E3F8FA07183B3B4B820DFC6513FD58F1EE",
+      "status": "tesSUCCESS",
+      "amount": {
+        "currency": "RLUSD",
+        "value": "5.00",
+        "issuer": "rhvzTE7FXW88bJUE7hWvc566S3jQnErK2X"
+      },
+      "timestamp": "2024-11-29T14:00:05Z"
+    }
+  ],
+  "summary": {
+    "totalTransactions": 6,
+    "successRate": "100%",
+    "network": "testnet",
+    "period": "Semana 2",
+    "confirmationTime": "~3.5s",
+    "mainProof": "38D3ED5B09CF4C1F03651615F95E42F790ADCBCE9DD6918F272FDF1A4C0B93F5"
+  }
+}
