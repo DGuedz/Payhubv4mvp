@@ -19,6 +19,8 @@ import { SoftPOSDownload } from './components/SoftPOSDownload';
 import { TestEnvironment } from './components/TestEnvironment';
 import { TestnetShowcase } from './components/TestnetShowcase';
 import { ToastContainer, ToastType } from './components/Toast';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 interface ToastMessage {
   id: string;
@@ -280,6 +282,8 @@ export default function App() {
 
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
