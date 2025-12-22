@@ -69,6 +69,22 @@ export interface SecurityAlertsResult {
   error?: string;
 }
 
+export interface AuthInitResult {
+  ok: boolean;
+  mode?: 'mock' | 'production';
+  auth_url?: string;
+  qr_code?: string;
+  uuid?: string;
+  error?: string;
+}
+
+export interface AuthCallbackResult {
+  ok: boolean;
+  token?: string;
+  user?: any;
+  error?: string;
+}
+
 // ────────────────────────────────────────────────────────────────────────────────
 // Currency Helper
 // ────────────────────────────────────────────────────────────────────────────────
@@ -384,6 +400,48 @@ class PayhubSDK {
           ok: false,
           alerts: [],
           stats: {},
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+      }
+    },
+  };
+
+  // ────────────────────────────────────────────────────────────────────────────────
+  // Auth Module (Xumm)
+  // ────────────────────────────────────────────────────────────────────────────────
+
+  public auth = {
+    /**
+     * Inicia fluxo de autenticação Xumm
+     * Endpoint: GET /api/auth/xumm/init
+     */
+    init: async (): Promise<AuthInitResult> => {
+      try {
+        const result = await this.fetchWithRetry<AuthInitResult>(
+          '/api/auth/xumm/init'
+        );
+        return result;
+      } catch (error) {
+        return {
+          ok: false,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+      }
+    },
+
+    /**
+     * Verifica callback de autenticação Xumm
+     * Endpoint: GET /api/auth/xumm/callback
+     */
+    callback: async (payloadUuid: string): Promise<AuthCallbackResult> => {
+      try {
+        const result = await this.fetchWithRetry<AuthCallbackResult>(
+          `/api/auth/xumm/callback?payload_uuid=${payloadUuid}`
+        );
+        return result;
+      } catch (error) {
+        return {
+          ok: false,
           error: error instanceof Error ? error.message : 'Unknown error',
         };
       }

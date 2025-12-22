@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Shield, Menu, X, Home, CreditCard, Lock, TrendingUp, FileText, User, Smartphone, FlaskConical } from 'lucide-react';
 import { Logo } from './Logo';
+import { SystemStatus } from './SystemStatus';
 
 interface HeaderProps {
   activeSection: string;
@@ -79,6 +80,9 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
 
           {/* Compliance Badge & Mobile Menu */}
           <div className="flex items-center gap-3">
+            {/* System Status Indicator */}
+            <SystemStatus />
+            
             <button
               onClick={() => setShowComplianceInfo(!showComplianceInfo)}
               className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-[#00E676]/10 border border-[#00E676]/20 hover:bg-[#00E676]/20 transition-colors"
