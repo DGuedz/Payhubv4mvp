@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   // 1. Recupera as credenciais seguras do ambiente Vercel
   const GATEWAY = process.env.VITE_API_URL;
   
@@ -23,10 +25,10 @@ export default async function handler(req, res) {
       secure_mode: hasSecrets,
       checked_at: timestamp
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(503).json({
       status: 'OFFLINE',
-      error: error.message,
+      error: error.message || 'Unknown error',
       checked_at: timestamp
     });
   }

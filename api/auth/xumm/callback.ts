@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload_uuid } = req.query;
 
   if (!payload_uuid) {
@@ -6,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   // Simulação de troca de token
-  if (payload_uuid.startsWith('mock-')) {
+  if (typeof payload_uuid === 'string' && payload_uuid.startsWith('mock-')) {
     return res.status(200).json({
       ok: true,
       token: 'jwt-mock-token-xumm-user',

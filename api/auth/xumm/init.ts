@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const XUMM_API_KEY = process.env.XUMM_API_KEY;
   
   // Em produção, isso seria obrigatório.
@@ -25,7 +27,7 @@ export default async function handler(req, res) {
       error: 'Production Xumm integration requires API Key configuration' 
     });
 
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ ok: false, error: error.message });
   }
 }
