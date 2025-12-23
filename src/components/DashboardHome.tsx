@@ -145,13 +145,16 @@ export function DashboardHome({
             <p className="text-gray-300 text-sm mb-4">
               Transações reais verificáveis em testnet.xrpl.org. Veja a diferença entre Modo Funcionário e Modo Dono.
             </p>
-            <a
-              href="#test"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2979FF] hover:bg-[#1E5FE0] text-white text-sm transition-all"
+            <button
+              onClick={() => {
+                const event = new CustomEvent('navigateToTestes');
+                window.dispatchEvent(event);
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2979FF] hover:bg-[#1E5FE0] text-white text-sm transition-all cursor-pointer"
             >
               <span>Testar Agora</span>
               <ArrowUpRight className="w-4 h-4" />
-            </a>
+            </button>
           </div>
         </div>
       </div>

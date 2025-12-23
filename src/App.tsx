@@ -18,9 +18,11 @@ import { ReceivePayment } from './components/ReceivePayment';
 import { SoftPOSDownload } from './components/SoftPOSDownload';
 import { TestEnvironment } from './components/TestEnvironment';
 import { TestnetShowcase } from './components/TestnetShowcase';
+import { TestesPage } from './components/TestesPage';
 import { ToastContainer, ToastType } from './components/Toast';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { track } from '@vercel/analytics';
 
 interface ToastMessage {
   id: string;
@@ -43,6 +45,19 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeSection]);
 
+  // Listen for custom navigation events
+  useEffect(() => {
+    const handleNavigateToTestes = () => {
+      setActiveSection('test');
+    };
+
+    window.addEventListener('navigateToTestes', handleNavigateToTestes);
+    
+    return () => {
+      window.removeEventListener('navigateToTestes', handleNavigateToTestes);
+    };
+  }, []);
+
   const handleAcceptAllCookies = () => {
     setCookieBarVisible(false);
   };
@@ -59,6 +74,7 @@ export default function App() {
     // Integração: GET /api/v1/compliance/report
     console.log('Exporting compliance CSV...');
     addToast('success', 'Relatório CSV exportado com sucesso!');
+    track('csv_exported', { scope: 'compliance' });
   };
 
   const addToast = (type: ToastType, message: string) => {
@@ -73,12 +89,14 @@ export default function App() {
   const handlePaymentSuccess = () => {
     setPaymentPixOpen(false);
     addToast('success', 'Pagamento realizado com sucesso!');
+    track('payment_completed', { method: 'PIX' });
   };
 
   const handlePaymentReceived = (amount: string, method: 'pix' | 'xrpl') => {
     setReceivePaymentOpen(false);
     const methodName = method === 'pix' ? 'PIX' : 'XRPL';
     addToast('success', `${amount} recebido via ${methodName} • Liquidação D+0 processada`);
+    track('payment_received', { currency: method === 'pix' ? 'BRL' : 'RLUSD', amount, method: methodName });
   };
 
   const handleConnectWallet = () => {
@@ -91,6 +109,7 @@ export default function App() {
       setWalletAddress(mockAddress);
       setWalletConnected(true);
       addToast('success', 'Wallet conectada com sucesso!');
+      track('wallet_connected', { network: 'XRPL Testnet' });
     }, 1500);
   };
 
@@ -225,7 +244,7 @@ export default function App() {
         {/* Test Environment Section */}
         {activeSection === 'test' && (
           <section id="test" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 max-w-7xl">
-            <TestEnvironment />
+            <TestesPage />
           </section>
         )}
 
