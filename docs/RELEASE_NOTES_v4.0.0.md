@@ -1,49 +1,52 @@
-# Release Notes: PAYHUB v4.0.0
+# PAYHUB v4.0.0 - Production Release (MVP)
 
-**Version:** v4.0.0
 **Date:** 2025-12-23
+**Version:** v4.0.0
 **Status:** Production Stable
-**Commit Hash:** HEAD (main)
-
----
+**Commit Reference:** f374a92
 
 ## Executive Summary
 
-This release marks the consolidation of the PAYHUB infrastructure into a hybrid architecture leveraging Vite for client-side rendering and Vercel Serverless Functions for backend operations. The primary objective of version 4.0.0 was to establish a secure, type-safe, and scalable foundation for institutional-grade liquidity operations on the XRPL ledger. Key deliverables include the migration of all backend logic to TypeScript, the implementation of active security defense mechanisms, and the rigorous enforcement of routing policies via configuration management.
+The v4.0.0 release marks the official transition of PAYHUB from development to a production-ready Minimum Viable Product (MVP). This version consolidates the hybrid infrastructure architecture, utilizing Vite for client-side rendering and Vercel Serverless Functions for backend operations. Key deliverables include the activation of the real-time system monitor ("Pulse"), implementation of active security defense mechanisms (Honeypots), and the establishment of OAuth2 authentication rails for XRPL wallet integration.
 
 ## Architecture and Infrastructure
 
-### Serverless Migration
-The backend architecture has been refactored from a traditional Node.js server model to a distributed Serverless Functions model. This transition ensures isolated execution environments for critical operations.
+### Hybrid Serverless Implementation
+The system architecture has been finalized as a hybrid model to optimize cost and scalability:
+* **Frontend:** Single Page Application (SPA) built with React and Vite.
+* **Backend:** Event-driven architecture using Vercel Serverless Functions (Node.js 18.x).
 
-- **Type Safety:** All serverless functions within the `api/` directory have been migrated to TypeScript (`.ts`), utilizing `@vercel/node` types to enforce strict request/response contracts.
-- **Routing Governance:** API routing is now explicitly managed via `vercel.json` configuration, overriding default framework presets to ensure deterministic path resolution for `api/*` endpoints.
-- **Environment Isolation:** Secrets such as `XRPL_SEED` and `JWT_SECRET` are injected strictly at the serverless runtime level, mitigating exposure risks in the client bundle.
+### TypeScript Migration
+All server-side logic located in the `api/` directory has been strictly migrated to TypeScript (`.ts`). This ensures static typing for request/response objects (`VercelRequest`, `VercelResponse`), mitigating runtime errors and enhancing code maintainability.
 
-### Infrastructure Components
-- **Health Monitoring:** Implementation of the `/api/pulse` endpoint, providing real-time system status, runtime environment verification, and connectivity checks with the XRPL gateway.
-- **Identity Management:** Integration of OAuth flows via `/api/auth/xumm/*`, facilitating secure, non-custodial user authentication.
+### Routing Configuration
+Implementation of a custom `vercel.json` configuration to resolve routing conflicts between the SPA client-side router and serverless API endpoints. The configuration explicitly prioritizes `/api/*` rewrites to function handlers before serving static assets.
 
 ## Security Operations (SecOps)
 
 ### Active Defense System
-A new layer of active defense has been deployed to detect and mitigate unauthorized access attempts.
+Deployment of the `api/security/alerts.ts` module, establishing a foundational honeypot mechanism to detect and log unauthorized access attempts or suspicious payload structures.
 
-- **Honeypot Endpoints:** Deployment of decoy endpoints (`/api/security/alerts`) designed to identify and log malicious scanning activities.
-- **Traffic Analysis:** Implementation of basic request logging and analysis within the serverless context to support future SIEM integration.
+### System Pulse (OpSec)
+Introduction of the `/api/pulse.ts` endpoint. This service performs a real-time health check of the application gateway and verifies the integrity of environment variables (specifically `XRPL_SEED`) without exposing sensitive cryptographic material in the HTTP response.
 
-### Operational Security
-- **Key Management:** Strict enforcement of environment variable validation during the boot process of serverless functions. The system now refuses to execute critical financial operations if required cryptographic seeds are not detected in the secure environment context.
+## Identity and Access Management
 
-## Critical Bug Fixes
+### Xumm OAuth Integration
+The authentication layer (`api/auth/xumm/`) has been structured to support the Xumm Wallet payload workflow. Endpoints for initialization and callback processing are deployed and ready for payload signing verification.
 
-- **Dependency Resolution:** Resolved a critical issue involving version-tagged imports (e.g., `package@1.2.3`) within the source code, which previously caused build failures in strict CI/CD environments. A comprehensive refactoring script was executed to normalize all import statements.
-- **Build Configuration:** Addressed compatibility issues between the Vite build preset and Vercel's serverless function discovery mechanism by enforcing a custom routing configuration.
+## Bug Fixes and Improvements
 
-## Roadmap
+* **Dependency Resolution:** Resolved critical import injection conflicts in legacy JavaScript libraries by enforcing strict ESM/CommonJS boundaries.
+* **Build Pipeline:** Fixed Vercel build output configuration to ensure correct bundling of serverless functions alongside static distribution files.
+* **Documentation Standards:** Complete revision of project documentation (`README.md`, `ROADMAP`), removing non-standard visual elements to align with institutional software governance standards.
 
-The following initiatives are scheduled for the post-release cycle:
+## Deployment Instructions
 
-1. **External Audit:** Engagement with third-party security firms to conduct penetration testing on the new serverless surface area.
-2. **Liquidity Expansion:** Activation of additional AMM pools and yield strategies on the XRPL mainnet.
-3. **Compliance Reporting:** Enhancement of the audit log export features to meet evolving CARF/OCDE regulatory standards.
+For successful deployment in the production environment, the following configuration is required:
+
+1.  **Framework Preset:** Must be set to `Other` or `Next.js` (do not use `Vite` preset) to enable serverless function discovery.
+2.  **Environment Variables:**
+    * `VITE_API_URL`: Production gateway URL.
+    * `XRPL_SEED`: Secure vault key for transaction signing.
+    * `XUMM_API_KEY`: Application key for wallet authentication.
